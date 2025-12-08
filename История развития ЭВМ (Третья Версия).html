@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>История развития ЭВМ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a2a6c, #2a3a7c);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.1)"/></svg>');
+            background-size: cover;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            position: relative;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Стили для вкладок */
+        .tabs-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            background: linear-gradient(to right, #1a2a6c, #2a3a7c);
+            overflow-x: auto;
+            padding: 0.5rem;
+        }
+
+        .tab {
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            text-align: center;
+            border-radius: 8px;
+            margin: 0.25rem;
+            color: white;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tab:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .tab.active {
+            background-color: white;
+            color: #1a2a6c;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .tab-content {
+            display: none;
+            padding: 2.5rem;
+            background: white;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Стили для карточек с изображениями */
+        .section-title {
+            color: #1a2a6c;
+            border-bottom: 2px solid #1a2a6c;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #eaeaea;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 1px solid #eee;
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            color: #1a2a6c;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-year {
+            font-weight: bold;
+            color: #4CAF50;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .card-features {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px dashed #eaeaea;
+        }
+
+        .feature-list {
+            list-style-type: none;
+        }
+
+        .feature-list li {
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+
+        .feature-list li i {
+            color: #4CAF50;
+            margin-top: 0.2rem;
+        }
+
+        /* Стили для временной шкалы */
+        .timeline {
+            position: relative;
+            max-width: 1200px;
+            margin: 3rem auto;
+        }
+
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            background: linear-gradient(to bottom, #1a2a6c, #4CAF50);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+            border-radius: 10px;
+        }
+
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+        .timeline-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .timeline-item:nth-child(odd) {
+            left: 0;
+        }
+
+        .timeline-item:nth-child(even) {
+            left: 50%;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            background-color: white;
+            border: 4px solid #1a2a6c;
+            top: 15px;
+            border-radius: 50%;
+            z-index: 1;
+            box-shadow: 0 0 0 3px rgba(26, 42, 108, 0.2);
+        }
+
+        .timeline-item:nth-child(odd)::after {
+            right: -12px;
+        }
+
+        .timeline-item:nth-child(even)::after {
+            left: -12px;
+        }
+
+        .timeline-content {
+            padding: 25px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            border-left: 4px solid #1a2a6c;
+        }
+
+        .timeline-content:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        .timeline-year {
+            font-weight: bold;
+            font-size: 1.5rem;
+            color: #1a2a6c;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .timeline-title {
+            font-size: 1.4rem;
+            margin-bottom: 0.8rem;
+            color: #2a3a7c;
+        }
+
+        .timeline-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin: 10px 0;
+            border: 1px solid #eaeaea;
+        }
+
+        /* Стили для сравнительной таблицы */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .comparison-table th {
+            background: linear-gradient(to right, #1a2a6c, #2a3a7c);
+            color: white;
+            padding: 1.2rem;
+            text-align: left;
+        }
+
+        .comparison-table td {
+            padding: 1rem 1.2rem;
+            border-bottom: 1px solid #eaeaea;
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .comparison-table tr:hover {
+            background-color: #f0f4ff;
+        }
+
+        /* Стили для статистики */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-top: 4px solid #1a2a6c;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #1a2a6c;
+            margin: 0.5rem 0;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Стили для плюсов и минусов */
+        .pros-cons-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .pros-cons-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            border: 1px solid #eaeaea;
+        }
+
+        .pros-cons-header {
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #1a2a6c, #2a3a7c);
+            color: white;
+        }
+
+        .pros-cons-title {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .pros-cons-years {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .pros-cons-content {
+            padding: 1.5rem;
+        }
+
+        .pros-list, .cons-list {
+            list-style-type: none;
+            margin-bottom: 1.5rem;
+        }
+
+        .pros-list li, .cons-list li {
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            border-radius: 6px;
+        }
+
+        .pros-list li {
+            background-color: rgba(76, 175, 80, 0.1);
+            border-left: 3px solid #4CAF50;
+        }
+
+        .cons-list li {
+            background-color: rgba(244, 67, 54, 0.1);
+            border-left: 3px solid #F44336;
+        }
+
+        .pros-list li i {
+            color: #4CAF50;
+            margin-top: 0.2rem;
+        }
+
+        .cons-list li i {
+            color: #F44336;
+            margin-top: 0.2rem;
+        }
+
+        footer {
+            background: linear-gradient(135deg, #1a2a6c, #2a3a7c);
+            color: white;
+            text-align: center;
+            padding: 2.5rem 0;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        @media screen and (max-width: 768px) {
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .timeline::after {
+                left: 31px;
+            }
+
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+
+            .timeline-item:nth-child(even) {
+                left: 0;
+            }
+
+            .timeline-item:nth-child(odd)::after,
+            .timeline-item:nth-child(even)::after {
+                left: 18px;
+            }
+
+            .cards-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .pros-cons-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1><i class="fas fa-laptop-code"></i> История развития ЭВМ</h1>
+        <p class="subtitle">От механических устройств до квантовых компьютеров - полная хронология развития вычислительной техники</p>
+    </header>
+
+    <div class="container">
+        <!-- Вкладки -->
+        <div class="tabs-container">
+            <div class="tabs">
+                <div class="tab active" data-tab="timeline">
+                    <i class="fas fa-history"></i> Временная шкала
+                </div>
+                <div class="tab" data-tab="generations">
+                    <i class="fas fa-microchip"></i> Поколения ЭВМ
+                </div>
+                <div class="tab" data-tab="key-machines">
+                    <i class="fas fa-desktop"></i> Ключевые машины
+                </div>
+                <div class="tab" data-tab="architects">
+                    <i class="fas fa-user-tie"></i> Создатели
+                </div>
+                <div class="tab" data-tab="technology">
+                    <i class="fas fa-cogs"></i> Технологии
+                </div>
+                <div class="tab" data-tab="comparison">
+                    <i class="fas fa-balance-scale"></i> Сравнение
+                </div>
+            </div>
+
+            <!-- Содержимое вкладки "Временная шкала" -->
+            <div class="tab-content active" id="timeline">
+                <h2 class="section-title">Хронология развития вычислительной техники</h2>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="timeline-year"><i class="fas fa-calendar-alt"></i> 1642</div>
+                            <h3 class="timeline-title">Паскалина</h3>
+                            <img src="https://assets.sutori.com/user-uploads/image/7db2f4c4-e609-4c7c-a136-ad9068b65dc1/%D0%BF%D0%B0%D1%81%D0%BA%D0%B0%D0%BB%D1%8C.jpeg" alt="Паскалина" class="timeline-image">
+                            <p>Блез Паскаль создал механическую суммирующую машину "Паскалину" - одно из первых механических вычислительных устройств. Машина могла выполнять сложение и вычитание.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="timeline-year"><i class="fas fa-calendar-alt"></i> 1834</div>
+                            <h3 class="timeline-title">Аналитическая машина Бэббиджа</h3>
+                            <img src="https://u.livelib.ru/reader/alchwort/o/kyuecauv/o-o.jpeg" alt="Аналитическая машина Бэббиджа" class="timeline-image">
+                            <p>Чарльз Бэббидж разработал проект аналитической машины - прообраза современного компьютера с арифметическим устройством, памятью и устройством ввода/вывода. Ада Лавлейс написала первую программу для этой машины.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="timeline-year"><i class="fas fa-calendar-alt"></i> 1941</div>
+                            <h3 class="timeline-title">Z3</h3>
+                            <img src="https://avatars.mds.yandex.net/i?id=3a55cc3f3f63b8cb7e5b2332a76d0783_l-5232491-images-thumbs&n=13" alt="Z3" class="timeline-image">
+                            <p>Конрад Цузе создал Z3 - первую рабочую программируемую вычислительную машину с двоичным кодом. Z3 использовал перфорированные плёнки для ввода программ и данных.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="timeline-year"><i class="fas fa-calendar-alt"></i> 1946</div>
+                            <h3 class="timeline-title">ENIAC</h3>
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/ENIAC_Penn1.jpg/800px-ENIAC_Penn1.jpg" alt="ENIAC" class="timeline-image">
+                            <p>В США создан ENIAC (Electronic Numerical Integrator and Computer) - первый электронный цифровой компьютер общего назначения. Занимал площадь 167 м² и потреблял 150 кВт энергии.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="timeline-year"><i class="fas fa-calendar-alt"></i> 1949</div>
+                            <h3 class="timeline-title">EDSAC</h3>
+                            <img src="https://i.dailymail.co.uk/i/pix/2016/09/07/13/3801D6FF00000578-3777843-image-a-7_1473251832950.jpg" alt="EDSAC" class="timeline-image">
+                            <p>В Великобритании создан EDSAC - первый компьютер с хранимой в памяти программой. Это позволило программам быть более гибкими и сложными.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="timeline-year"><i class="fas fa-calendar-alt"></i> 1971</div>
+                            <h3 class="timeline-title">Первый микропроцессор</h3>
+                            <img src="https://avatars.mds.yandex.net/i?id=63808f9b564bbecfff96ee4879c72b43_l-5163701-images-thumbs&n=13" alt="Intel 4004" class="timeline-image">
+                            <p>Intel выпустила первый микропроцессор Intel 4004, что положило начало эре персональных компьютеров. 4004 содержал 2300 транзисторов и работал на частоте 740 кГц.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="timeline-year"><i class="fas fa-calendar-alt"></i> 1981</div>
+                            <h3 class="timeline-title">IBM PC</h3>
+                            <img src="https://avatars.mds.yandex.net/i?id=9e53fab6bdc9d4cd647e40a04f18fb35_l-17394771-images-thumbs&n=13" alt="IBM PC" class="timeline-image">
+                            <p>IBM выпустила первый персональный компьютер IBM PC, который стал стандартом для индустрии ПК. Использовал процессор Intel 8088 и операционную систему PC-DOS.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Содержимое вкладки "Поколения ЭВМ" -->
+            <div class="tab-content" id="generations">
+                <h2 class="section-title">Поколения электронно-вычислительных машин</h2>
+                <div class="cards-container">
+                    <div class="card">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/ENIAC_Penn1.jpg/800px-ENIAC_Penn1.jpg" alt="Первое поколение ЭВМ" class="card-img">
+                        <div class="card-content">
+                            <h3 class="card-title">Первое поколение (1940-1955)</h3>
+                            <p class="card-year"><i class="far fa-clock"></i> 1940-1955</p>
+                            <p>Компьютеры на электронных лампах. Отличались огромными размерами, высоким энергопотреблением и низкой надежностью.</p>
+                            <div class="card-features">
+                                <ul class="feature-list">
+                                    <li><i class="fas fa-check"></i> <strong>Элементная база:</strong> электронные лампы</li>
+                                    <li><i class="fas fa-check"></i> <strong>Быстродействие:</strong> 10-20 тыс. операций в секунду</li>
+                                    <li><i class="fas fa-check"></i> <strong>Программирование:</strong> машинные коды</li>
+                                    <li><i class="fas fa-check"></i> <strong>Примеры:</strong> ENIAC, UNIVAC, МЭСМ</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <img src="https://i.ytimg.com/vi/08jzFyeaHI8/hqdefault.jpg" alt="Второе поколение ЭВМ" class="card-img">
+                        <div class="card-content">
+                            <h3 class="card-title">Второе поколение (1955-1965)</h3>
+                            <p class="card-year"><i class="far fa-clock"></i> 1955-1965</p>
+                            <p>Появление транзисторов позволило значительно уменьшить размеры компьютеров и повысить их надежность.</p>
+                            <div class="card-features">
+                                <ul class="feature-list">
+                                    <li><i class="fas fa-check"></i> <strong>Элементная база:</strong> транзисторы</li>
+                                    <li><i class="fas fa-check"></i> <strong>Быстродействие:</strong> до 1 млн операций в секунду</li>
+                                    <li><i class="fas fa-check"></i> <strong>Программирование:</strong> языки высокого уровня</li>
+                                    <li><i class="fas fa-check"></i> <strong>Примеры:</strong> IBM 1401, БЭСМ-6</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <img src="https://s00.yaplakal.com/pics/pics_preview/1/3/4/20193431.jpg" alt="Третье поколение ЭВМ" class="card-img">
+                        <div class="card-content">
+                            <h3 class="card-title">Третье поколение (1965-1975)</h3>
+                            <p class="card-year"><i class="far fa-clock"></i> 1965-1975</p>
+                            <p>Интегральные схемы позволили еще больше уменьшить размеры и увеличить производительность компьютеров.</p>
+                            <div class="card-features">
+                                <ul class="feature-list">
+                                    <li><i class="fas fa-check"></i> <strong>Элементная база:</strong> интегральные схемы</li>
+                                    <li><i class="fas fa-check"></i> <strong>Быстродействие:</strong> до 10 млн операций в секунду</li>
+                                    <li><i class="fas fa-check"></i> <strong>Программирование:</strong> операционные системы</li>
+                                    <li><i class="fas fa-check"></i> <strong>Примеры:</strong> IBM System/360, PDP-8</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <img src="https://avatars.mds.yandex.net/i?id=54d9b90f17468823b6a62121b4f6d6c6_l-5242655-images-thumbs&n=13" alt="Четвертое поколение ЭВМ" class="card-img">
+                        <div class="card-content">
+                            <h3 class="card-title">Четвертое поколение (1975-1990)</h3>
+                            <p class="card-year"><i class="far fa-clock"></i> 1975-1990</p>
+                            <p>Появление микропроцессоров привело к созданию персональных компьютеров и массовому распространению вычислительной техники.</p>
+                            <div class="card-features">
+                                <ul class="feature-list">
+                                    <li><i class="fas fa-check"></i> <strong>Элементная база:</strong> микропроцессоры</li>
+                                    <li><i class="fas fa-check"></i> <strong>Быстродействие:</strong> до 100 млн операций в секунду</li>
+                                    <li><i class="fas fa-check"></i> <strong>Программирование:</strong> графические интерфейсы</li>
+                                    <li><i class="fas fa-check"></i> <strong>Примеры:</strong> IBM PC, Apple Macintosh</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <img src="https://avatars.mds.yandex.net/i?id=99fde62763b9a4145ba1d454c75166bd_l-9264009-images-thumbs&n=13" alt="Пятое поколение ЭВМ" class="card-img">
+                        <div class="card-content">
+                            <h3 class="card-title">Пятое поколение (1990-н.в.)</h3>
+                            <p class="card-year"><i class="far fa-clock"></i> 1990-настоящее время</p>
+                            <p>Современные компьютеры с искусственным интеллектом, параллельной обработкой данных и сетевыми технологиями.</p>
+                            <div class="card-features">
+                                <ul class="feature-list">
+                                    <li><i class="fas fa-check"></i> <strong>Элементная база:</strong> СБИС, оптоэлектроника</li>
+                                    <li><i class="fas fa-check"></i> <strong>Быстродействие:</strong> миллиарды операций в секунду</li>
+                                    <li><i class="fas fa-check"></i> <strong>Программирование:</strong> нейросети, AI</li>
+                                    <li><i class="fas fa-check"></i> <strong>Примеры:</strong> суперкомпьютеры, квантовые компьютеры</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Содержимое вкладки "Ключевые машины" -->
+            <div class="tab-content" id="key-machines">
+                <h2 class="section-title">Знаковые вычислительные машины в истории</h2>
+                <div class="cards-container">
+                    <div class="card">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/ENIAC_Penn1.jpg/800px-ENIAC_Penn1.jpg" alt="ENIAC" class="card-img">
+                        <div class="card-content">
+                            <h3 class="card-title">ENIAC</h3>
+                            <p class="card-year"><i class="far fa-calendar-alt"></i> 1946</p>
+                            <p>Первый электронный цифровой компьютер общего назначения. Занимал площадь 167 м², весил 30 тонн и потреблял 150 кВт энергии.</p>
+                            <div class="card-features">
+                                <ul class="feature-list">
+                                    <li><i class="fas fa-microchip"></i> <strong>Процессор:</strong> 18 000 электронных ламп</li>
+                                    <li><i class="fas fa-tachometer-alt"></i> <strong>Производительность:</strong> 5000 операций в секунду</li>
+                                    <li><i class="fas fa-memory"></i> <strong>Память:</strong> 20 число-регистров</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <img src="https://avatars.mds.yandex.net/i?id=3a55cc3f3f63b8cb7e5b2332a76d0783_l-5232491-images-thumbs&n=13" alt="Z3" class="card-img">
+                        <div class="card-content">
+                            <h3 class="card-title">Z3</h3>
+                            <p class="card-year"><i class="far fa-calendar-alt"></i> 1941</p>
+                            <p>Первая рабочая программируемая вычислительная машина с двоичным кодом, созданная Конрадом Цузе в Германии.</p>
+                            <div class="card-features">
+                                <ul class="feature-list">
+                                    <li><i class="fas fa-microchip"></i> <strong>Процессор:</strong> 2600 реле</li>
+                                    <li><i class="fas fa-tachometer-alt"></i> <strong>Производительность:</strong> 3-4 операции в секунду</li>
+                                    <li><i class="fas fa-memory"></i> <strong>Память:</strong> 64 слова по 22 бита</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <img src="https://avatars.mds.yandex.net/i?id=a1f9b55887b6c5e12b1134bb84fb1391_l-5233092-images-thumbs&n=13&n=13&w=345&h=230" alt="IBM PC" class="card-img">
+                        <div class="card-content">
+                            <h3 class="card-title">IBM PC</h3>
+                            <p class="card-year"><i class="far fa-calendar-alt"></i> 1981</p>
+                            <p>Первый персональный компьютер от IBM, ставший стандартом для индустрии и положивший начало массовому распространению ПК.</p>
+                            <div class="card-features">
+                                <ul class="feature-list">
+                                    <li><i class="fas fa-microchip"></i> <strong>Процессор:</strong> Intel 8088, 4.77 МГц</li>
+                                    <li><i class="fas fa-tachometer-alt"></i> <strong>Память:</strong> 16-256 КБ</li>
+                                    <li><i class="fas fa-hdd"></i> <strong>Накопитель:</strong> 5.25" дисковод, 160 КБ</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <img src="https://avatars.mds.yandex.net/i?id=d04db6a5090aca1c8a9fc1a35334c8fd8cede031-12422774-images-thumbs&n=13" alt="Apple II" class="card-img">
+                        <div class="card-content">
+                            <h3 class="card-title">Apple II</h3>
+                            <p class="card-year"><i class="far fa-calendar-alt"></i> 1977</p>
+                            <p>Один из первых массовых персональных компьютеров, сыгравший важную роль в развитии домашних компьютеров.</p>
+                            <div class="card-features">
+                                <ul class="feature-list">
+                                    <li><i class="fas fa-microchip"></i> <strong>Процессор:</strong> MOS 6502, 1 МГц</li>
+                                    <li><i class="fas fa-tachometer-alt"></i> <strong>Память:</strong> 4-48 КБ</li>
+                                    <li><i class="fas fa-tv"></i> <strong>Графика:</strong> 280×192, 6 цветов</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Содержимое вкладки "Создатели" -->
+            <div class="tab-content" id="architects">
+                <h2 class="section-title">Великие создатели вычислительной техники</h2>
+                <div class="cards-container">
+                    <div class="card">
+                        <img src="https://avatars.mds.yandex.net/i?id=36439b252d49a446835561fb054413ab06eea6f6-5551764-images-thumbs&n=13" alt="Чарльз Бэббидж" class="card-img">
+                        <div class="card-content">
+                            <h3 class="card-title">Чарльз Бэббидж</h3>
+                            <p class="card-year"><i class="far fa-calendar-alt"></i> 1791-1871</p>
+                            <p>Английский математик, изобретатель первой аналитической вычислительной машины. Считается "отцом компьютера".</p>
+                            <div class="card-features">
+                                <ul class="feature-list">
+                                    <li><i class="fas fa-cogs"></i> Разработал разностную машину</li>
+                                    <li><i class="fas fa-cogs"></i> Спроектировал аналитическую машину</li>
+                                    <li><i class="fas fa-cogs"></i> Заложил основы архитектуры компьютера</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <img src="https://media.riamo.ru/get_resized/CQgrPPSZM43XcntkmUv506WxoI8=/1200x630/filters:rs(fill-down):focal(0.44:0.31):format(jpg)/YXJ0aWNsZXMvaW1hZ2UvMjAyNS82L2FsYW4tdHVyaW5nLWFnZWQtMTYuanBn.jpg" alt="Алан Тьюринг" class="card-img">
+                        <div class="card-content">
+                            <h3 class="card-title">Алан Тьюринг</h3>
+                            <p class="card-year"><i class="far fa-calendar-alt"></i> 1912-1954</p>
+                            <p>Английский математик, логик, криптограф, оказавший существенное влияние на развитие информатики.</p>
+                            <div class="card-features">
+                                <ul class="feature-list">
+                                    <li><i class="fas fa-cogs"></i> Сформулировал концепцию машины Тьюринга</li>
+                                    <li><i class="fas fa-cogs"></i> Разработал тест Тьюринга</li>
+                                    <li><i class="fas fa-cogs"></i> Участвовал в расшифровке кода "Энигма"</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <img src="https://studfile.net/html/2706/464/html_8L8lOFvjFs.aP68/htmlconvd-62He_c12x1.jpg" alt="Конрад Цузе" class="card-img">
+                        <div class="card-content">
+                            <h3 class="card-title">Конрад Цузе</h3>
+                            <p class="card-year"><i class="far fa-calendar-alt"></i> 1910-1995</p>
+                            <p>Немецкий инженер, пионер компьютеростроения. Создал первый работающий программируемый компьютер.</p>
+                            <div class="card-features">
+                                <ul class="feature-list">
+                                    <li><i class="fas fa-cogs"></i> Создал Z1, Z2, Z3, Z4</li>
+                                    <li><i class="fas fa-cogs"></i> Разработал язык программирования Планкалкюль</li>
+                                    <li><i class="fas fa-cogs"></i> Основал компанию Zuse KG</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <img src="https://explorenetworth.com/wp-content/uploads/2023/03/Gordon-Moore-Net-Worth-2023.jpg" alt="Гордон Мур" class="card-img">
+                        <div class="card-content">
+                            <h3 class="card-title">Гордон Мур</h3>
+                            <p class="card-year"><i class="far fa-calendar-alt"></i> 1929-2023</p>
+                            <p>Один из основателей корпорации Intel и автор знаменитого закона Мура о росте производительности процессоров.</p>
+                            <div class="card-features">
+                                <ul class="feature-list">
+                                    <li><i class="fas fa-cogs"></i> Сооснователь Intel</li>
+                                    <li><i class="fas fa-cogs"></i> Автор закона Мура</li>
+                                    <li><i class="fas fa-cogs"></i> Разработчик первых микропроцессоров</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Содержимое вкладки "Технологии" -->
+            <div class="tab-content" id="technology">
+                <h2 class="section-title">Эволюция технологий в вычислительной технике</h2>
+                <div class="cards-container">
+                    <div class="card">
+                        <img src="https://avatars.dzeninfra.ru/get-zen_doc/271828/pub_67581fdad73c3175472c9212_675821535509b00977621ede/scale_1200" alt="Электронные лампы" class="card-img">
+                        <div class="card-content">
+                            <h3 class="card-title">Электронные лампы</h3>
+                            <p class="card-year"><i class="far fa-clock"></i> 1904-1960</p>
+                            <p>Первые электронные компоненты, использовавшиеся в компьютерах первого поколения. Отличались большими размерами, высоким энергопотреблением и низкой надежностью.</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <img src="https://avatars.mds.yandex.net/i?id=94476a4562aa3b2b240cbf7f1457383e_l-4114739-images-thumbs&n=13" alt="Транзисторы" class="card-img">
+                        <div class="card-content">
+                            <h3 class="card-title">Транзисторы</h3>
+                            <p class="card-year"><i class="far fa-clock"></i> 1947-н.в.</p>
+                            <p>Полупроводниковые приборы, заменившие электронные лампы. Позволили значительно уменьшить размеры компьютеров, повысить их надежность и снизить энергопотребление.</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <img src="https://avatars.mds.yandex.net/i?id=097e0d29a234261f52282f975ee82057_l-5436885-images-thumbs&n=13" alt="Интегральные схемы" class="card-img">
+                        <div class="card-content">
+                            <h3 class="card-title">Интегральные схемы</h3>
+                            <p class="card-year"><i class="far fa-clock"></i> 1958-н.в.</p>
+                            <p>Миниатюрные электронные схемы, содержащие тысячи и миллионы транзисторов на одном кристалле. Стали основой для компьютеров третьего и последующих поколений.</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <img src="https://avatars.mds.yandex.net/i?id=20f28c3168b365fa838ea391c40f329d_l-5311685-images-thumbs&n=13" alt="Микропроцессоры" class="card-img">
+                        <div class="card-content">
+                            <h3 class="card-title">Микропроцессоры</h3>
+                            <p class="card-year"><i class="far fa-clock"></i> 1971-н.в.</p>
+                            <p>Сложные интегральные схемы, содержащие на одном кристалле все основные компоненты процессора. Позволили создать персональные компьютеры и мобильные устройства.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="section-title" style="margin-top: 3rem;">Эволюция технологий хранения данных</h3>
+                <div class="cards-container">
+                    <div class="card">
+                        <img src="https://avatars.mds.yandex.net/i?id=32249a8bb70cca4b9760df66779d902e_l-5286004-images-thumbs&n=13" alt="Ферритовая память" class="card-img">
+                        <div class="card-content">
+                            <h3 class="card-title">Ферритовая память</h3>
+                            <p class="card-year"><i class="far fa-clock"></i> 1950-1970</p>
+                            <p>Использовалась в компьютерах второго поколения. Состояла из маленьких ферритовых колец, нанизанных на провода. Ёмкость: до 32 КБ.</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <img src="https://avatars.mds.yandex.net/i?id=4c482e57fe3bbba7c5f7caea53d440c7_l-5655860-images-thumbs&n=13" alt="Гибкие диски" class="card-img">
+                        <div class="card-content">
+                            <h3 class="card-title">Гибкие диски</h3>
+                            <p class="card-year"><i class="far fa-clock"></i> 1971-2000</p>
+                            <p>Съёмные носители информации, широко использовавшиеся с 1970-х по 1990-е годы. Ёмкость от 160 КБ до 2.88 МБ. Первый 8-дюймовый диск создан в 1971 году.</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <img src="https://avatars.mds.yandex.net/get-mpic/5387588/2a000001921e6c55681fc9f355a757067964/orig" alt="Жесткие диски" class="card-img">
+                        <div class="card-content">
+                            <h3 class="card-title">Жесткие диски</h3>
+                            <p class="card-year"><i class="far fa-clock"></i> 1956-н.в.</p>
+                            <p>Магнитные накопители данных с высокой ёмкостью. Впервые появились в 1956 году (IBM 350, 5 МБ), продолжают использоваться сегодня. Современные HDD достигают 20+ ТБ.</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <img src="https://main-cdn.sbermegamarket.ru/big2/hlr-system/20/37/67/34/36/84/100027046638b1.jpg" alt="Твердотельные накопители" class="card-img">
+                        <div class="card-content">
+                            <h3 class="card-title">Твердотельные накопители</h3>
+                            <p class="card-year"><i class="far fa-clock"></i> 1991-н.в.</p>
+                            <p>Современные устройства хранения данных на основе флеш-памяти. Первые коммерческие SSD появились в 1991 году. Отличаются высокой скоростью и надежностью. Ёмкость до 100+ ТБ.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Содержимое вкладки "Сравнение" -->
+            <div class="tab-content" id="comparison">
+                <h2 class="section-title">Сравнение характеристик компьютеров разных поколений</h2>
+                
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Параметр</th>
+                            <th>1-е поколение</th>
+                            <th>2-е поколение</th>
+                            <th>3-е поколение</th>
+                            <th>4-е поколение</th>
+                            <th>5-е поколение</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Годы</strong></td>
+                            <td>1940-1955</td>
+                            <td>1955-1965</td>
+                            <td>1965-1975</td>
+                            <td>1975-1990</td>
+                            <td>1990-н.в.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Элементная база</strong></td>
+                            <td>Электронные лампы</td>
+                            <td>Транзисторы</td>
+                            <td>Интегральные схемы</td>
+                            <td>Микропроцессоры</td>
+                            <td>СБИС, оптоэлектроника</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Быстродействие (оп/сек)</strong></td>
+                            <td>10-20 тыс.</td>
+                            <td>100-500 тыс.</td>
+                            <td>1-10 млн</td>
+                            <td>10-100 млн</td>
+                            <td>1 млрд+</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Объем памяти</strong></td>
+                            <td>До 2 КБ</td>
+                            <td>До 32 КБ</td>
+                            <td>До 4 МБ</td>
+                            <td>До 16 МБ</td>
+                            <td>Гигабайты</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Размеры</strong></td>
+                            <td>Комнаты</td>
+                            <td>Шкафы</td>
+                            <td>Столы</td>
+                            <td>Настольные</td>
+                            <td>Карманные</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Энергопотребление</strong></td>
+                            <td>Очень высокое</td>
+                            <td>Высокое</td>
+                            <td>Среднее</td>
+                            <td>Низкое</td>
+                            <td>Очень низкое</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 class="section-title" style="margin-top: 3rem;">Сравнение процессоров (Кол-во транзисторов в процессоре)</h3>
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <i class="fas fa-microchip fa-2x"></i>
+                        <div class="stat-value">2,300</div>
+                        <div class="stat-label">Транзисторов в Intel 4004 (1971)</div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-microchip fa-2x"></i>
+                        <div class="stat-value">134,000</div>
+                        <div class="stat-label">Транзисторов в Intel 8086 (1978)</div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-microchip fa-2x"></i>
+                        <div class="stat-value">1.2 млн</div>
+                        <div class="stat-label">Транзисторов в Intel 486 (1989)</div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-microchip fa-2x"></i>
+                        <div class="stat-value">57 млрд</div>
+                        <div class="stat-label">Транзисторов в AMD Ryzen 9 7950X (2022)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <p>© 2025 История развития ЭВМ | Образовательный проект</p>
+            <p>Сайт создан в образовательных целях. Все изображения принадлежат их авторам.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Функционал вкладок
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Убираем активный класс со всех вкладок и содержимого
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    
+                    // Добавляем активный класс к текущей вкладке
+                    tab.classList.add('active');
+                    
+                    // Показываем соответствующее содержимое
+                    const tabId = tab.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+            
+            // Анимация появления элементов временной шкалы при прокрутке
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            
+            function checkVisibility() {
+                timelineItems.forEach(item => {
+                    const itemTop = item.getBoundingClientRect().top;
+                    const windowHeight = window.innerHeight;
+                    
+                    if (itemTop < windowHeight * 0.9) {
+                        item.classList.add('visible');
+                    }
+                });
+            }
+            
+            // Проверяем видимость при загрузке и прокрутке
+            checkVisibility();
+            window.addEventListener('scroll', checkVisibility);
+        });
+    </script>
+</body>
+</html>
